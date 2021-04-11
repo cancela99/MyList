@@ -18,7 +18,13 @@ class _HomeViewState extends State<HomeView> {
     ));
   }
 
-  Widget todoTemplate(document, id) {
+  _deleteTodo(index, snapshot){
+    setState(() {
+      snapshot.documents.removeAt(index);
+    });
+  }
+
+  Widget todoTemplate(document, id, list) {
     return Dismissible(
         key: Key(UniqueKey().toString()),
         onDismissed: (DismissDirection direction) {
@@ -33,13 +39,16 @@ class _HomeViewState extends State<HomeView> {
                 onPressed: () async {
                   String uid = FirebaseAuth.instance.currentUser.uid;
                   await FirebaseFirestore.instance.collection('Users').doc(uid).collection('Todos').doc(id).delete();
-                  build(context);
+                  _deleteTodo(id, list);
+                  //build(context);
                   Navigator.of(context).pop();
                 },
               );
               Widget cancelarButton = FlatButton(
                 child: new Text("Cancelar"),
                 onPressed: () {
+                  //build(context);
+                  //list.insert(int.tryParse(id), document);
                   build(context);
                   Navigator.of(context).pop();
                 },
@@ -50,7 +59,7 @@ class _HomeViewState extends State<HomeView> {
                 content: new Text("Deseja realmente eliminar a tarefa?"),
                 actions: [
                   eliminarButton,
-                  cancelarButton
+                  cancelarButton,
                 ],
                 elevation: 24.0,
 
@@ -59,7 +68,7 @@ class _HomeViewState extends State<HomeView> {
           );
 
           //showSnackBar(context, document);
-        }, //TODO flutter delete
+        },
         background: Container(
           alignment: Alignment.centerRight,
           padding: const EdgeInsets.all(12.0),
@@ -143,8 +152,9 @@ class _HomeViewState extends State<HomeView> {
                   } else {
                     return ListView(
                       children: snapshot.data.docs.map((document) {
+                        final list = snapshot.data.docs;
                         return Container(
-                            child: todoTemplate(document, document.id),
+                            child: todoTemplate(document, document.id, list),
                         );
                       }).toList(),
                     );

@@ -6,6 +6,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 import 'package:intl/intl.dart';
 
+
 Future<bool> signIn(String email, String password) async {
   try {
     await FirebaseAuth.instance
@@ -56,16 +57,18 @@ class EmailValidator {
 
 Future<bool> addTodo(String priority, String task, String description) async {
   try {
-    String id = 't000' + '0';
-    //int a = countTotalTasks();
+    
+    final String id = UniqueKey().toString();
     DateTime dateNow = DateTime.now();
     String dateStart = DateFormat('dd/MM/yyyy HH:mm:ss').format(dateNow);
 
-    //countTotalTasks();
-
-    /*if(a != null){
-      id = 't000' + '2';
-    }*/
+    if (priority.isEmpty) {
+      priority = "N/A";
+    } else if (task.isEmpty) {
+      task = "N/A";
+    } else if (description.isEmpty) {
+      description = "N/A";
+    }
 
     String uid = FirebaseAuth.instance.currentUser.uid;
     DocumentReference documentReference = FirebaseFirestore.instance
@@ -76,14 +79,6 @@ Future<bool> addTodo(String priority, String task, String description) async {
 
     FirebaseFirestore.instance.runTransaction((transaction) async {
       DocumentSnapshot snapshot = await transaction.get(documentReference);
-
-      if (priority == null) {
-        priority = "N/A";
-      } else if (task == null) {
-        task = "N/A";
-      } else if (description == null) {
-        description = "N/A";
-      }
 
       if (!snapshot.exists) {
         documentReference.set({'description': description});
@@ -127,29 +122,3 @@ removeTodo() {
   }
 }
 
-class A {
-  Future<int> getInt(lngt) {
-    return Future.value(lngt);
-  }
-}
-
-class B {
-  checkValue(lngt) async {
-    final val = await A().getInt(lngt);
-    //print(val == 10 ? "yes" : "no");
-    print("******************** Total de tasks: $val ********************");
-  }
-}
-
-Future<int> countTotalTasks() async {
-  try {
-    String uid = FirebaseAuth.instance.currentUser.uid;
-    //DocumentReference documentReference = FirebaseFirestore.instance.collection('Users').doc(uid).collection('Todos').snapshots().length;
-
-    //print("******************** Total de tasks: $totalTasks ********************");
-
-    //return totalTasks;
-  } catch (ex) {
-    return null;
-  }
-}
