@@ -57,16 +57,18 @@ class EmailValidator {
 
 Future<bool> addTodo(String priority, String task, String description) async {
   try {
-    
+
     final String id = UniqueKey().toString();
     DateTime dateNow = DateTime.now();
     String dateStart = DateFormat('dd/MM/yyyy HH:mm:ss').format(dateNow);
 
     if (priority.isEmpty) {
       priority = "N/A";
-    } else if (task.isEmpty) {
+    }
+    if (task.isEmpty) {
       task = "N/A";
-    } else if (description.isEmpty) {
+    }
+    if (description.isEmpty) {
       description = "N/A";
     }
 
@@ -81,14 +83,17 @@ Future<bool> addTodo(String priority, String task, String description) async {
       DocumentSnapshot snapshot = await transaction.get(documentReference);
 
       if (!snapshot.exists) {
-        documentReference.set({'description': description});
-        documentReference.set({'taskname': task});
-        documentReference.set({'datestart': dateStart});
-        documentReference.set({'priority': priority});
+        documentReference.set({
+          'description': description,
+          'taskname': task,
+          'datestart': dateStart,
+          'priority': priority
+        });
+
         return true;
       }
 
-      String newDescription = snapshot.data()['description'] = description;
+      /*String newDescription = snapshot.data()['description'] = description;
       String newTaskName = snapshot.data()['taskname'] = task;
       String newDateStart = snapshot.data()['datestart'] = dateStart;
       String newPriority = snapshot.data()['priority'] = priority;
@@ -98,13 +103,20 @@ Future<bool> addTodo(String priority, String task, String description) async {
       transaction.update(documentReference, {'datestart': newDateStart});
       transaction.update(documentReference, {'priority': newPriority});
 
-      return true;
+      return true;*/
     });
   } catch (ex) {
     return false;
   }
 }
 
+/*Future<bool> editTodo() async {
+  try {
+
+  } catch (ex) {
+    return false;
+  }
+}*/
 
 removeTodo() {
   try {

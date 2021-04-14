@@ -39,24 +39,21 @@ class _HomeViewState extends State<HomeView> {
                 onPressed: () async {
                   String uid = FirebaseAuth.instance.currentUser.uid;
                   await FirebaseFirestore.instance.collection('Users').doc(uid).collection('Todos').doc(id).delete();
-                  _deleteTodo(id, list);
-                  //build(context);
                   Navigator.of(context).pop();
+                  _deleteTodo(id, list);
                 },
               );
               Widget cancelarButton = FlatButton(
                 child: new Text("Cancelar"),
                 onPressed: () {
-                  //build(context);
-                  //list.insert(int.tryParse(id), document);
-                  build(context);
                   Navigator.of(context).pop();
+                  setState(() {});
                 },
               );
 
               return AlertDialog(
                 title: new Text("Aviso!"),
-                content: new Text("Deseja realmente eliminar a tarefa?"),
+                content: new Text("Deseja eliminar a tarefa?"),
                 actions: [
                   eliminarButton,
                   cancelarButton,
@@ -72,17 +69,17 @@ class _HomeViewState extends State<HomeView> {
         background: Container(
           alignment: Alignment.centerRight,
           padding: const EdgeInsets.all(12.0),
-          margin: EdgeInsets.fromLTRB(20.0, 16.0, 20.0, 0),
+          margin: EdgeInsets.fromLTRB(5.0, 13.0, 5.0, 0),
           child: Icon(Icons.delete, color: Colors.white,),
           decoration: BoxDecoration(
-            color: Colors.redAccent,
+            color: Colors.red,
             borderRadius: BorderRadius.circular(5.0),
           ),
         ),
         child:
         Card(
           color: Colors.blueAccent,
-          margin: EdgeInsets.fromLTRB(20.0, 16.0, 20.0, 0),
+          margin: EdgeInsets.fromLTRB(6.0, 13.0, 6.0, 0),
           child: new InkWell(
             onTap: (){
               Navigator.push(
@@ -101,8 +98,13 @@ class _HomeViewState extends State<HomeView> {
                 children: <Widget>[
                   Container(
                     child:
-                    Text(
-                      document.data()['taskname'],
+                    Text((() {
+                      if(document.data()['taskname'].toString().isNotEmpty ){
+                        return document.data()['taskname'];
+                      } else {
+                        return "N/A";
+                      }
+                    }()),
                       style: TextStyle(
                         fontSize: 18.0,
                         color: Colors.white,
@@ -112,8 +114,13 @@ class _HomeViewState extends State<HomeView> {
                   SizedBox(height: 6.0),
                   Container(
                     child:
-                    Text(
-                      document.data()['description'],
+                    Text((() {
+                      if(document.data()['description'].toString().isNotEmpty ){
+                        return document.data()['description'];
+                      } else {
+                        return "N/A";
+                      }
+                    }()),
                       style: TextStyle(
                         fontSize: 14.0,
                         color: Colors.white70,
