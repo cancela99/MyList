@@ -1,16 +1,20 @@
-# mylist
+# MyList
 
-Flutter Project - To-do List
+Flutter Project - To-Do List
 
 ## Getting Started
 
-This project is a starting point for a Flutter application.
+This project consists in a simple Flutter application developed with the intuition of learn mobile development and also for personal usage.
 
-A few resources to get you started if this is your first Flutter project:
+##### Main functionalities of the application:
+- Add todo tasks to the list of tasks
+- Visualize task details
+- Exclude tasks from the task list
+- Mark tasks as concluded
 
-- [Lab: Write your first Flutter app](https://flutter.dev/docs/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://flutter.dev/docs/cookbook)
+###### Functionalities that haven't been implemented yet:
+- [ ] Conclude Tasks
+- [ ] Edit Tasks
 
-For help getting started with Flutter, view our
-[online documentation](https://flutter.dev/docs), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+Hope you find it intresting, if so let me know! 
+	:rainbow:
