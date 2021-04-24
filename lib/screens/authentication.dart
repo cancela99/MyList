@@ -87,9 +87,9 @@ class _AuthenticationState extends State<Authentication> {
                       ),
                     );
                   } else {
-                    Scaffold.of(context).showSnackBar(
+                    ScaffoldMessenger.of(context).showSnackBar(
                       SnackBar(
-                          content: Text("Erro de login!"),
+                        content: Text('Incorrect Credentials')
                       ),
                     );
                   }
